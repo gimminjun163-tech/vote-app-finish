@@ -5,14 +5,13 @@ import { User, Vote, store } from '@/lib/store';
 
 interface ProfileProps {
   user: User;
-  onLogout: () => void;
-  onVoteClick: (vote: Vote) => void;
+  onBack: () => void;
 }
 
 type SortOption = 'popular' | 'newest' | 'oldest' | 'a-z' | 'z-a';
 type FilterOption = 'not-participated' | 'participated' | 'active' | 'expired' | 'all';
 
-export default function Profile({ user, onLogout, onVoteClick }: ProfileProps) {
+export default function Profile({ user, onBack }: ProfileProps) {
   const [myVotes, setMyVotes] = useState<Vote[]>([]);
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [filters, setFilters] = useState<FilterOption[]>(['all']);
@@ -99,6 +98,13 @@ export default function Profile({ user, onLogout, onVoteClick }: ProfileProps) {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
+      <button
+        onClick={onBack}
+        className="mb-4 px-4 py-2 text-primary-blue hover:bg-blue-50 rounded-lg transition-colors"
+      >
+        ← 돌아가기
+      </button>
+      
       <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
         <div className="flex items-start justify-between">
           <div>
@@ -117,12 +123,6 @@ export default function Profile({ user, onLogout, onVoteClick }: ProfileProps) {
               <p>생성한 투표: {myVotes.length}개</p>
             </div>
           </div>
-          <button
-            onClick={onLogout}
-            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
-            로그아웃
-          </button>
         </div>
       </div>
 
@@ -169,8 +169,7 @@ export default function Profile({ user, onLogout, onVoteClick }: ProfileProps) {
             return (
               <div
                 key={vote.id}
-                onClick={() => onVoteClick(vote)}
-                className="p-4 border border-gray-200 rounded-lg hover:border-primary-blue hover:shadow-md transition-all cursor-pointer"
+                className="p-4 border border-gray-200 rounded-lg"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
